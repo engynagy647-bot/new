@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام التمارين الكامل</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif}
+
+  body{
+    min-height:100vh;
+    padding:20px;
+    backdrop-filter:blur(2px);
+    transition:all 0.5s ease;
+  }
+
+  /* ثيم البنات - بينك قوي */
+  body.female-theme{
+    background:url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1920') no-repeat center fixed;
+    background-size:cover;
+    filter:hue-rotate(-20deg) saturate(1.3);
+  }
+  body.female-theme.container{border:3px solid #f472b6;background:rgba(255,255,255,0.98)}
+  body.female-theme h1{color:#e11d48}
+  body.female-theme.subtitle{color:#be123c}
+  body.female-theme.gender-badge{background:#fff1f2;border:3px solid #fbcfe8;color:#be123c}
+  body.female-theme.card,body.female-theme.exercise-card{background:#fff1f2;border:2px solid #fbcfe8}
+  body.female-theme h2,body.female-theme.exercise-name{color:#e11d48;border-right:5px solid #f472b6}
+  body.female-theme.tab{background:#fff1f2;border:2px solid #fbcfe8;color:#be123c}
+  body.female-theme.ai-plan{background:linear-gradient(135deg,#f472b6,#ec4899)}
+  body.female-theme.badge{background:#fbcfe8;color:#be123c}
+  body.female-theme.plan-day{background:#fff1f2;border:2px solid #fbcfe8}
+  body.female-theme.plan-day h4{color:#e11d48}
+  body.female-theme.back-btn{background:#f472b6;color:#000;border:3px solid #ec4899;box-shadow:0 8px 25px rgba(244,114,182,0.4);font-weight:900}
+  body.female-theme.back-btn:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(244,114,182,0.6);background:#ec4899;color:#000}
+  body.female-theme.ai-btn{background:#f472b6;color:#000;border:2px solid #ec4899;box-shadow:0 5px 15px rgba(244,114,182,0.3)}
+
+  /* ثيم الرجالة - رمادي بصورة راجل بيتمرن - كل الكلام أبيض */
+  body.male-theme{
+    background:url('https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1920') no-repeat center fixed;
+    background-size:cover;
+    filter:contrast(1.1) brightness(0.9);
+  }
+  body.male-theme.container{border:3px solid #9ca3af;background:rgba(0,0,0,0.85)}
+  body.male-theme h1{color:#fff}
+  body.male-theme.subtitle{color:#fff}
+  body.male-theme.gender-badge{background:rgba(250, 246, 246, 0.7);border:3px solid #fff;color:#fff}
+  body.male-theme.card,body.male-theme.exercise-card{background:rgba(248, 247, 247, 0.8);border:2px solid #9ca3af}
+  body.male-theme h2,body.male-theme.exercise-name{color:#fff;border-right:5px solid #fff}
+  body.male-theme.tab{background:rgba(249, 247, 247, 0.7);border:2px solid #9ca3af;color:#fff}
+  body.male-theme.tab.active{background:linear-gradient(135deg,#fff,#e5e7eb);color:#000;border-color:#fff}
+  body.male-theme.ai-plan{background:linear-gradient(135deg,#374151,#1f2937)}
+  body.male-theme.badge{background:#9ca3af;color:#fcfafa}
+  body.male-theme.plan-day{background:rgba(0,0,0,0.8);border:2px solid #9ca3af}
+  body.male-theme.plan-day h4{color:#fff}
+  body.male-theme.plan-day p{color:#fff}
+  body.male-theme.exercise-benefit{color:#e5e7eb}
+  body.male-theme.back-btn{background:#9ca3af;color:#000;border:3px solid #6b7280;box-shadow:0 8px 25px rgba(107,114,128,0.4)}
+  body.male-theme.ai-btn{background:#9ca3af;color:#000;border:2px solid #6b7280;box-shadow:0 5px 15px rgba(107,114,128,0.3)}
+
+  /* مشترك */
+.container{max-width:1200px;margin:auto;border-radius:22px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,0.25)}
+  h1{text-align:center;margin-bottom:10px;font-size:32px}
+.gender-badge{text-align:center;border-radius:12px;padding:12px;margin-bottom:20px;font-weight:900;font-size:17px}
+.subtitle{text-align:center;font-size:18px;margin-bottom:25px;font-weight:600}
+.ai-plan{border-radius:18px;padding:25px;margin-bottom:30px;color:#fff}
+.ai-input{display:flex;gap:10px;margin-top:15px}
+.ai-input input{flex:1;padding:14px;border-radius:12px;border:none;font-size:16px;background:#fff}
+.ai-btn{padding:14px 25px;border-radius:12px;font-weight:bold;cursor:pointer;font-size:16px;transition:0.3s}
+.plan-result{margin-top:20px;background:rgba(255,255,255,0.98);border-radius:15px;padding:20px;display:none}
+.plan-day{border-radius:12px;padding:15px;margin-bottom:12px}
+.plan-day h4{margin-bottom:8px;font-size:18px}
+.tabs{display:flex;gap:10px;margin-bottom:25px;flex-wrap:wrap;justify-content:center}
+.tab{padding:12px 25px;border-radius:12px;cursor:pointer;font-weight:700;transition:0.3s}
+.exercises-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+.exercise-card{border-radius:18px;overflow:hidden;transition:0.3s}
+.exercise-card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+.exercise-video{width:100%;height:240px;border:none;border-radius:18px 18px 0 0}
+.exercise-body{padding:20px}
+.exercise-name{font-size:20px;font-weight:900;margin-bottom:8px;padding-right:12px}
+.exercise-benefit{color:#166534;font-size:14px;line-height:1.8;margin-bottom:12px}
+.badge{padding:6px 12px;border-radius:8px;font-size:13px;font-weight:700}
+.back-btn{width:100%;padding:18px;border-radius:12px;font-size:20px;cursor:pointer;margin-top:30px;transition:0.3s}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1> نظام التمارين الكامل</h1>
+  <div id="genderBadge" class="gender-badge"></div>
+  <p class="subtitle">فيديو لكل تمرين + خطة مخصصة لجسمك</p>
+
+  <div class="ai-plan">
+    <h2>🤖 الذكاء الاصطناعي يصمملك خطة الأسبوع</h2>
+    <p>اكتبي/اكتب هدفك: "تخسيس البطن" أو "شد الجسم" أو "بناء عضل"</p>
+    <div class="ai-input">
+      <input type="text" id="goalInput" placeholder="مثال: عايز أخس 5 كيلو">
+      <button class="ai-btn" onclick="generatePlan()">اقترح عليا</button>
+    </div>
+    <div id="planResult" class="plan-result"></div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('full')">الجسم الكامل</div>
+    <div class="tab" onclick="showTab('belly')">البطن</div>
+    <div class="tab" onclick="showTab('legs')">الرجلين</div>
+    <div class="tab" onclick="showTab('arms')">الدراعات</div>
+    <div class="tab" onclick="showTab('cardio')">كارديو</div>
+  </div>
+
+  <div id="exercisesContainer" class="exercises-grid"></div>
+  <button class="back-btn" onclick="window.location.href='index.html'">🔙 ارجع من الاول</button>
+</div>
+
+<script>
+const patient = JSON.parse(localStorage.getItem('smartPatient')) || {};
+const gender = patient.gender || 'female';
+
+if(gender === 'male'){
+  document.body.classList.add('male-theme');
+  document.getElementById('genderBadge').innerHTML = '👨 التمارين مخصصة للرجال - شدة أعلى + بناء عضلات';
+  document.getElementById('goalInput').placeholder = 'مثال: عايز أضخم عضل';
+} else {
+  document.body.classList.add('female-theme');
+  document.getElementById('genderBadge').innerHTML = '👩 التمارين مخصصة للسيدات - تركيز على الشد والتنحيف';
+  document.getElementById('goalInput').placeholder = 'مثال: عايزة أخس 5 كيلو';
+}
+
+const exercises = {
+  female: {
+    full: [
+      {name: "سكوات - Squat", video: "https://www.youtube.com/embed/aclHkVaku9U", benefit: "بيشد المؤخرة والرجلين بدون تضخيم. 4×15", sets: "4 مجموعات", reps: "15 عدة"},
+      {name: "ضغط على الركبة", video: "https://www.youtube.com/embed/3EXW8hB_f54", benefit: "نسخة أخف للسيدات. بيقوي الدراع والبطن", sets: "3 مجموعات", reps: "10 عدة"},
+      {name: "بلانك", video: "https://www.youtube.com/embed/pSHjTRCQxIw", benefit: "بيشد البطن والكور. اثبتي 45 ثانية", sets: "3 مجموعات", reps: "45 ثانية"}
+    ]
+  },
+  male: {
+    full: [
+      {name: "سكوات بوزن", video: "https://www.youtube.com/embed/ultWZ9Dy6Fc", benefit: "لبناء عضل الرجلين. شيلي شنطة كتب", sets: "5 مجموعات", reps: "12 عدة"},
+      {name: "ضغط عادي", video: "https://www.youtube.com/embed/IODxDxX7oi4", benefit: "لعضلات الصدر والدراع. 4×15", sets: "4 مجموعات", reps: "15 عدة"},
+      {name: "بلانك", video: "https://www.youtube.com/embed/pSHjTRCQxIw", benefit: "تثبيت 60 ثانية لتقوية الكور", sets: "4 مجموعات", reps: "60 ثانية"}
+    ]
+  }
+};
+
+function showTab(type){
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  const container = document.getElementById('exercisesContainer');
+  const list = exercises[gender][type] || [];
+  container.innerHTML = list.map(ex => `
+    <div class="exercise-card">
+      <iframe class="exercise-video" src="${ex.video}" title="${ex.name}" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="exercise-body">
+        <div class="exercise-name">${ex.name}</div>
+        <div class="exercise-benefit">${ex.benefit}</div>
+        <div class="badge">${ex.sets} | ${ex.reps}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function generatePlan(){
+  let goal = document.getElementById('goalInput').value.trim().toLowerCase();
+  let result = document.getElementById('planResult');
+  if(!goal){alert('اكتب هدفك الأول 💪'); return;}
+  result.innerHTML = `<div class="plan-day"><h4>خطتك: ${goal}</h4><p>تم توليد خطة مخصصة ليك حسب هدفك 💪</p></div>`;
+  result.style.display = 'block';
+}
+
+window.onload = () => showTab('full');
+</script>
+</body>
+</html>
