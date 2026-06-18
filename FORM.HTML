@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سجل بياناتك</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif}
+  body{
+    background:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1920') no-repeat center fixed;
+    background-size:cover;
+    min-height:100vh;
+    padding:20px;
+    backdrop-filter:blur(2px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .container{max-width:650px;width:100%;background:rgba(255,255,255,0.97);border-radius:22px;padding:40px;box-shadow:0 20px 60px rgba(0,0,0,0.25);border:2px solid #bbf7d0;animation:slideIn 0.6s ease}
+  @keyframes slideIn{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
+  h1{color:#15803d;text-align:center;margin-bottom:25px;font-size:28px}
+  .card{background:#f0fdf4;border:2px solid #bbf7d0;border-radius:18px;padding:22px;margin-bottom:20px}
+  h2{color:#166534;font-size:18px;margin-bottom:15px;border-right:5px solid #22c55e;padding-right:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  label{font-weight:700;color:#14532d;margin-bottom:6px;display:block;font-size:14px}
+  input,select{width:100%;padding:12px;border:2px solid #86efac;border-radius:10px;font-size:15px;background:#fff}
+  input:focus,select:focus{border-color:#22c55e;outline:none;box-shadow:0 0 0 3px rgba(34,197,94,0.15)}
+  .btn{width:100%;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;border:none;padding:18px;border-radius:12px;font-weight:bold;font-size:20px;cursor:pointer;margin-top:15px;transition:0.3s;box-shadow:0 8px 25px rgba(34,197,94,0.4)}
+  .btn:hover{transform:translateY(-3px) scale(1.02)}
+  .checkbox-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:8px}
+  .checkbox-grid label{font-weight:500;font-size:13px;display:flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 سجل بياناتك الأول</h1>
+  
+  <div class="card">
+    <h2>1. بياناتك الأساسية</h2>
+    <div class="grid">
+      <div><label>الاسم</label><input type="text" id="pName" placeholder="اسمك" required></div>
+      <div><label>الوزن kg</label><input type="number" id="pWeight" placeholder="58.1" step="0.1" required></div>
+      <div><label>الطول cm</label><input type="number" id="pHeight" placeholder="160" required></div>
+      <div><label>العمر</label><input type="number" id="pAge" placeholder="30" required></div>
+      <div>
+        <label>النوع</label>
+        <select id="pGender" required>
+          <option value="">اختاري/اختر...</option>
+          <option value="female">أنثى 👩</option>
+          <option value="male">ذكر 👨</option>
+        </select>
+      </div>
+      <div><label>هدف السعرات اليومي</label><input type="number" id="calGoal" value="1500"></div>
+      <div><label>هدف البروتين جم</label><input type="number" id="proGoal" value="93"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. بيانات InBody - اختياري</h2>
+    <div class="grid">
+      <div><label>كتلة العضلات SMM كجم</label><input type="number" id="pMuscle" step="0.1"></div>
+      <div><label>كتلة الدهون كجم</label><input type="number" id="pFat" step="0.1"></div>
+      <div><label>نسبة الدهون PBF %</label><input type="number" id="pFatPercent" step="0.1"></div>
+      <div><label>مياه الجسم لتر</label><input type="number" id="pWater" step="0.1"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. الأمراض والحساسيات</h2>
+    <div class="checkbox-grid">
+      <label><input type="checkbox" id="d_sugar"> سكر</label>
+      <label><input type="checkbox" id="d_pressure"> ضغط</label>
+      <label><input type="checkbox" id="d_gluten"> حساسية جلوتين</label>
+      <label><input type="checkbox" id="d_lactose"> حساسية ألبان</label>
+      <label><input type="checkbox" id="d_kidney"> مشاكل كلى</label>
+    </div>
+  </div>
+
+  <button class="btn" onclick="goToIndex()">أنا جاهز/ه 🚀</button>
+</div>
+
+<script>
+function goToIndex(){
+  // اتأكدي البيانات الأساسية موجودة
+  if(!pName.value || !pWeight.value || !pHeight.value || !pAge.value || !pGender.value){
+    alert('كملي البيانات الأساسية الأول 💚 - النوع مطلوب');
+    return;
+  }
+  
+  // احفظي كل البيانات في localStorage
+  let patient = {
+    name:pName.value,
+    weight:+pWeight.value,
+    height:+pHeight.value,
+    age:+pAge.value,
+    gender:pGender.value,
+    calGoal:+calGoal.value,
+    proGoal:+proGoal.value,
+    muscle:+pMuscle.value,
+    fatMass:+pFat.value,
+    fatPercent:+pFatPercent.value,
+    water:+pWater.value,
+    diseases:{
+      sugar:d_sugar.checked,
+      pressure:d_pressure.checked,
+      gluten:d_gluten.checked,
+      lactose:d_lactose.checked,
+      kidney:d_kidney.checked
+    }
+  };
+  localStorage.setItem('smartPatient', JSON.stringify(patient));
+  
+  // تأثير تقليب للـ index
+  document.body.style.transition = 'all 0.6s ease';
+  document.body.style.opacity = '0';
+  document.body.style.transform = 'scale(0.95)';
+  
+  setTimeout(() => {
+    window.location.href = 'food.html';
+  }, 600);
+}
+</script>
+</body>
+</html>
